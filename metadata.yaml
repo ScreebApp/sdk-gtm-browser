@@ -1,5 +1,7 @@
 homepage: "https://screeb.app"
 documentation: "https://help.screeb.app/"
-# versions:
-#   - sha: xxxxx
-#     changeNotes: "Initial release"
+versions:
+  # latest here
+  - sha: fbc14035d397cacfedc05592351c59e5d24e4002
+    changeNotes: "Initial release"
+  # oldest here
