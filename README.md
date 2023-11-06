@@ -16,6 +16,6 @@ Gallery publication: https://developers.google.com/tag-platform/tag-manager/temp
 
 ### Release
 
-1- Commit your code
-2- Copy the commit SHA1
-3- Create a changelog record in metadata.yaml, using the commit id
+- Commit your code
+- Copy the commit SHA1
+- Create a changelog record in metadata.yaml, using the commit id
