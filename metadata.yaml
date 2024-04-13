@@ -2,6 +2,6 @@ homepage: "https://screeb.app"
 documentation: "https://help.screeb.app/"
 versions:
   # latest here
-  - sha: fbc14035d397cacfedc05592351c59e5d24e4002
+  - sha: 464ab6983beea82c16130d3f0a839ba20ee263c1
     changeNotes: "Initial release"
   # oldest here
