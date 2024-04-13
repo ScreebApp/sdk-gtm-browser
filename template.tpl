@@ -518,7 +518,7 @@ switch (data.command) {
     screeb('init', initChannelId, initSettings);
     log('command:', 'init', initChannelId, initSettings);
 
-    injectScript(url, data.gtmOnSuccess(), data.gtmOnFailure(), url);
+    injectScript(url, data.gtmOnSuccess, data.gtmOnFailure, url);
     break;
 
   case "close":
