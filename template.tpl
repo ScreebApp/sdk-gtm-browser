@@ -134,6 +134,39 @@ ___TEMPLATE_PARAMETERS___
   },
   {
     "type": "PARAM_TABLE",
+    "name": "init__global_config",
+    "displayName": "Global configuration",
+    "paramTableColumns": [
+      {
+        "param": {
+          "type": "TEXT",
+          "name": "key",
+          "displayName": "",
+          "simpleValueType": true
+        },
+        "isUnique": true
+      },
+      {
+        "param": {
+          "type": "TEXT",
+          "name": "value",
+          "displayName": "",
+          "simpleValueType": true
+        },
+        "isUnique": false
+      }
+    ],
+    "newRowButtonText": "Add config",
+    "enablingConditions": [
+      {
+        "paramName": "command",
+        "paramValue": "init",
+        "type": "EQUALS"
+      }
+    ]
+  },
+  {
+    "type": "PARAM_TABLE",
     "name": "init__identity_properties",
     "displayName": "User properties",
     "paramTableColumns": [
@@ -487,6 +520,7 @@ const injectScript = require('injectScript');
 const log = require('logToConsole');
 const createArgumentsQueue = require('createArgumentsQueue');
 const callInWindow = require('callInWindow');
+const setInWindow = require('setInWindow');
 
 const url = 'https://t.screeb.app/tag.js';
 
@@ -507,6 +541,23 @@ function adaptPropertyFieldToKV(givenProperties) {
   return properties;
 }
 
+function adaptGlobalConfigField(givenConfig) {
+  if (!givenConfig) {
+    return null;
+  }
+
+  let config = {};
+  let hasConfig = false;
+  for (let i = 0; i < givenConfig.length; i++) {
+    const key = givenConfig[i].key;
+    if (key) {
+      config[key] = givenConfig[i].value;
+      hasConfig = true;
+    }
+  }
+  return hasConfig ? config : null;
+}
+
 log("input data:", data);
 
 switch (data.command) {
@@ -514,7 +565,16 @@ switch (data.command) {
     const initChannelId = data.init__channel_id;
     const initIdentity = data.init__identity ? data.init__identity : null;
     const initProperties = adaptPropertyFieldToKV(data.init__identity_properties);
+    const initGlobalConfig = adaptGlobalConfigField(data.init__global_config);
     const initSettings = {identity:{id: initIdentity, properties: initProperties}};
+
+    // Screeb reads its global configuration from the page window when booting,
+    // it's not part of the init command payload.
+    if (initGlobalConfig) {
+      setInWindow('ScreebConfig', initGlobalConfig, true);
+      log('global config:', initGlobalConfig);
+    }
+
     screeb('init', initChannelId, initSettings);
     log('command:', 'init', initChannelId, initSettings);
 
@@ -691,6 +751,45 @@ ___WEB_PERMISSIONS___
                   {
                     "type": 1,
                     "string": "$screeb.q"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  }
+                ]
+              },
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "key"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  },
+                  {
+                    "type": 1,
+                    "string": "execute"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "ScreebConfig"
                   },
                   {
                     "type": 8,
