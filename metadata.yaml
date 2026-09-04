@@ -2,6 +2,8 @@ homepage: "https://screeb.app"
 documentation: "https://help.screeb.app/"
 versions:
   # latest here
+  - sha: d18d2fe51103ad6fbb5dacc0cd9ae6ee1476c089
+    changeNotes: "Add global configuration to tag initialization"
   - sha: 464ab6983beea82c16130d3f0a839ba20ee263c1
     changeNotes: "Initial release"
   # oldest here
